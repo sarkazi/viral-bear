@@ -13,7 +13,8 @@ import {
    InputAdornment,
    Autocomplete
 } from '@mui/material'
-import { ReportProblem } from '@mui/icons-material';
+import { ReportProblem, Search, Link, QuestionAnswer } from '@mui/icons-material';
+
 
 import clsx from 'clsx'
 
@@ -260,11 +261,11 @@ const PublishingAddSection =
                         ),
                      }} value={activeAddVideo.vbCode || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, vbCode: e.target.value })} variant="outlined" label="VB code" />
 
-                     <Button disabled={!activeAddVideo.vbCode} onClick={() => onFindForm()} variant="contained">Find</Button>
+                     <Button className={clsx([styles._btn])} disabled={!activeAddVideo.vbCode} onClick={() => onFindForm()} variant="contained"><span>Find</span><Search /></Button>
                   </Box>
                   <Box className={styles.inputBox}>
                      <TextField value={activeAddVideo.agreementLink || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, agreementLink: e.target.value })} variant="outlined" label="Link to the agreement" disabled />
-                     <Button className={styles.followLinkBtn} disabled={!validator.isURL(activeAddVideo.agreementLink)} onClick={() => window.open(activeAddVideo.agreementLink)} variant="contained">Follow the link</Button>
+                     <Button className={clsx([styles.followLinkBtn, styles._btn])} disabled={!validator.isURL(activeAddVideo.agreementLink)} onClick={() => window.open(activeAddVideo.agreementLink)} variant="contained"><span>Follow the link</span><Link /></Button>
                   </Box>
                   <TextField value={activeAddVideo.authorEmail || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, authorEmail: e.target.value })} variant="outlined" label="Author's email" disabled />
                   <TextField type='number' value={activeAddVideo.advancePayment || ''} onChange={(e) => advancePaymentHandleSubmit(e)} variant="outlined" label='Advance payment ($)' disabled />
@@ -294,14 +295,14 @@ const PublishingAddSection =
 
                   <Box className={styles.inputBox}>
                      <TextField value={activeAddVideo.trelloCardUrl || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardUrl: e.target.value })} variant="outlined" label='Trello card (link)' required disabled />
-                     <Button onClick={() => window.open(activeAddVideo.trelloCardUrl)} className={styles.followLinkBtn} disabled={!validator.isURL(activeAddVideo.trelloCardUrl) ? true : false} variant="contained">Follow the link</Button>
+                     <Button onClick={() => window.open(activeAddVideo.trelloCardUrl)} className={clsx([styles.followLinkBtn, styles._btn])} disabled={!validator.isURL(activeAddVideo.trelloCardUrl) ? true : false} variant="contained"><span>Follow the link</span><Link /></Button>
                   </Box>
                   <TextField value={activeAddVideo.trelloCardId} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardId: e.target.value })} variant="outlined" label='Trello card (id)' required disabled />
                   <TextField value={activeAddVideo.trelloCardName} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardName: e.target.value })} variant="outlined" label='Trello card (name)' required disabled />
                   <FormControlLabel control={<Checkbox checked={activeAddVideo.priority} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, priority: e.target.checked })} disabled />} label="Priority" required disabled />
                   <Box className={styles.inputBox}>
                      <TextField value={activeAddVideo.originalLink || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, originalLink: e.target.value })} variant="outlined" label='Original video link' required />
-                     <Button onClick={() => window.open(activeAddVideo.originalLink)} className={styles.followLinkBtn} disabled={!validator.isURL(activeAddVideo.originalLink) ? true : false} variant="contained">Follow the link</Button>
+                     <Button onClick={() => window.open(activeAddVideo.originalLink)} className={clsx([styles.followLinkBtn, styles._btn])} disabled={!validator.isURL(activeAddVideo.originalLink) ? true : false} variant="contained"><span>Follow the link</span><Link /></Button>
                   </Box>
                </Grid>
                <Grid className={styles.formCenterBlock}>
@@ -326,7 +327,7 @@ const PublishingAddSection =
                         !activeAddVideo.whatHappen &&
                         !activeAddVideo.whenFilmed &&
                         !activeAddVideo.whoAppears
-                     } onClick={() => setModalOpen(true)} className={clsx(styles.textAreaBtn)} variant='filled'>Check author's answers</Button>
+                     } onClick={() => setModalOpen(true)} className={clsx([styles.textAreaBtn, styles._btn])} variant='filled'><span>Check author's answers</span><QuestionAnswer /></Button>
                   </Box>
                   <TextField value={activeAddVideo.creditTo || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, creditTo: e.target.value })} variant="outlined" label="Credit to" />
 

@@ -14,7 +14,7 @@ import {
    Checkbox,
    Autocomplete,
 } from '@mui/material'
-import { Edit, CloseRounded } from '@mui/icons-material';
+import { Edit, CloseRounded, Search, Link, QuestionAnswer } from '@mui/icons-material';
 //import { PurpleCheckbox } from '../../../mui/components/PurpleCheckbox';
 
 import { Axios } from '../../../api/axios.instance';
@@ -24,6 +24,8 @@ import toast from 'react-hot-toast';
 import ToastCustom from '../../../toast/components/ToastCustom';
 
 import validator from 'validator'
+
+import clsx from 'clsx'
 
 
 
@@ -245,12 +247,13 @@ const PublishingEditSection = ({
                      disabled
                   />
                   <Button
-                     className={styles.followLinkBtn}
+                     className={clsx([styles.followLinkBtn, styles._btn])}
                      disabled={!validator.isURL(editBlockCardInfo.agreementLink)}
                      onClick={() => window.open(editBlockCardInfo.agreementLink)}
                      variant="contained"
                   >
-                     Follow the link
+                     <span>Follow the link</span>
+                     <Link />
                   </Button>
                </Box>
                <TextField
@@ -304,12 +307,13 @@ const PublishingEditSection = ({
                      disabled
                   />
                   <Button
-                     className={styles.followLinkBtn}
+                     className={clsx([styles.followLinkBtn, styles._btn])}
                      disabled={!validator.isURL(editBlockCardInfo.trelloCardUrl)}
                      onClick={() => window.open(editBlockCardInfo.trelloCardUrl)}
                      variant="contained"
                   >
-                     Follow the link
+                     <span>Follow the link</span>
+                     <Link />
                   </Button>
                </Box>
                <TextField
@@ -341,12 +345,13 @@ const PublishingEditSection = ({
                      label='Original video link'
                   />
                   <Button
-                     className={styles.followLinkBtn}
+                     className={clsx([styles.followLinkBtn, styles._btn])}
                      disabled={!validator.isURL(editBlockCardInfo.originalLink)}
                      onClick={() => window.open(editBlockCardInfo.originalLink)}
                      variant="contained"
                   >
-                     Follow the link
+                     <span>Follow the link</span>
+                     <Link />
                   </Button>
                </Box>
             </Grid>
@@ -427,10 +432,11 @@ const PublishingEditSection = ({
                         !editBlockCardInfo.whenFilmed &&
                         !editBlockCardInfo.whoAppears}
                      onClick={() => setEditAnswerModal(true)}
-                     className={styles.textAreaBtn}
+                     className={clsx([styles.textAreaBtn, styles._btn])}
                      variant='filled'
                   >
-                     Check author's answers
+                     <span>Check author's answers</span>
+                     <QuestionAnswer />
                   </Button>
                </Box>
                <TextField

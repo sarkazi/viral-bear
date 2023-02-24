@@ -1,5 +1,5 @@
 .itemBlock {
-  display: flex !important;
+  display: flex;
   flex-direction: column !important;
   width: 100%;
   border-radius: 10px;
@@ -21,8 +21,13 @@
     .formCenterBlock {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 15px;
+      gap: 15px;
       margin-bottom: 15px;
+      @media (max-width: 500px) {
+        & {
+          grid-template-columns: 1fr;
+        }
+      }
       .mediaBlock {
         border: 1px solid rgb(200, 200, 200);
         border-radius: 4px;
@@ -36,11 +41,6 @@
           top: 10px;
           right: 10px;
           background-color: white;
-        }
-
-        iframe {
-          max-width: 100% !important;
-          max-height: 100% !important;
         }
       }
       label:last-child {
@@ -57,6 +57,7 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
+        padding: 10px;
         p {
           margin-bottom: 0;
           text-align: center;
@@ -90,6 +91,11 @@
   display: grid;
   grid-template-columns: 1fr 120px;
   column-gap: 10px;
+  @media (max-width: 650px) {
+    & {
+      grid-template-columns: 1fr auto;
+    }
+  }
   button {
     background-color: #3f51b5;
     padding-left: 40px;
@@ -98,6 +104,12 @@
     font-size: 13px;
     font-weight: 400;
     text-transform: uppercase;
+    @media (max-width: 650px) {
+      & {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
     &:hover {
       background-color: #4d5fc8;
     }
@@ -161,4 +173,22 @@
   max-width: 120px;
   font-size: 11px !important;
   line-height: 120% !important;
+}
+
+._btn {
+  svg {
+    display: none;
+  }
+  @media (max-width: 650px) {
+    & {
+      svg {
+        display: unset;
+      }
+      span {
+        display: none;
+        font-size: 11px;
+        line-height: 120%;
+      }
+    }
+  }
 }

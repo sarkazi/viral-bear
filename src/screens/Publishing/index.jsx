@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './publishing.module.scss'
 
 import { Box, Grid, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
-import { ReportProblem, WhatshotTwoTone } from '@mui/icons-material';
+import { ReportProblem, WhatshotTwoTone, Search } from '@mui/icons-material';
 
 import { Axios } from '../../api/axios.instance'
 import { trelloInstance } from '../../api/trello.instance'
@@ -589,7 +589,8 @@ const Publishing = () => {
          <FormControlLabel className={styles.modeCheckbox} control={<Checkbox checked={isAdminMode} onChange={(e) => setIsAdminMode(e.target.checked)} />} label="Admin mode" />
          <Grid className={styles.upItems} style={{ gridTemplateRows: isAdminMode ? 'repeat(5, auto)' : 'repeat(4, auto)' }}>
             {isAdminMode && <Grid className={styles.upItem} item xs={12}>
-               <h2>Waiting for publishing:</h2>
+               <Box className={styles.upItemBoxText}><h2>Waiting for publishing:</h2></Box>
+
                <Box className={styles.upBox} >
                   {cardsForPublishing?.sort((a, b) => {
                      if (a?.trelloData?.priority === true) {
@@ -606,7 +607,7 @@ const Publishing = () => {
                </Box>
             </Grid>}
             <Grid className={styles.upItem} item xs={12}>
-               <h2>Done:</h2>
+               <Box className={styles.upItemBoxText}><h2 className={styles.upItemDoneTitle}>Done:</h2></Box>
                <Box className={styles.upBox} >
                   {doneCards?.sort((a, b) => {
                      if (a?.customFieldItems?.find(el => el.idValue === '62c7e0032a86d7161f8cadb2')) {
@@ -623,7 +624,8 @@ const Publishing = () => {
                   ))}
                </Box>
             </Grid>
-            <Grid className={styles.upItem} item xs={12}><h2>Approved:</h2>
+            <Grid className={styles.upItem} item xs={12}>
+               <Box className={styles.upItemBoxText}><h2 className={styles.upItemApprovedTitle}>Approved:</h2></Box>
                <Box className={styles.upBox}>
                   {approvedCards?.sort((a, b) => {
                      if (a?.customFieldItems?.find(el => el.idValue === '62c7e0032a86d7161f8cadb2')) {
@@ -640,7 +642,7 @@ const Publishing = () => {
                </Box>
             </Grid>
             <Grid className={styles.upItem} item xs={12}>
-               <h2>Social media:</h2>
+               <Box className={styles.upItemBoxText}><h2>Social media:</h2></Box>
                <Box className={styles.upBox}>
                   {socialMediaCards?.sort((a, b) => {
                      if (a?.trelloData?.priority === true) {
@@ -657,7 +659,7 @@ const Publishing = () => {
                </Box>
             </Grid>
             <Grid className={styles.upItem} item xs={12}>
-               <h2>Fix this:</h2>
+               <Box className={styles.upItemBoxText}><h2>Fix this:</h2></Box>
                <Box className={styles.upBox}>
                   {fixedCards?.sort((a, b) => {
                      if (a?.trelloData?.priority === true) {
@@ -708,7 +710,7 @@ const Publishing = () => {
          <Grid sm={12} className={styles.downFindBlock}>
             <Box className={styles.downFindBox}>
                <TextField type='number' value={videoId} onChange={(e) => { setVideoId(e.target.value) }} variant='outlined' label='Find a video' />
-               <Button disabled={!videoId || fetchStatus === 'loading'} onClick={() => findVideoById()} className={styles.grayBtn}>Search</Button>
+               <Button disabled={!videoId || fetchStatus === 'loading'} onClick={() => findVideoById()} className={clsx([styles.grayBtn, styles._btn])}><span>Search</span><Search /></Button>
             </Box>
             {isAdminMode && <Box className={styles.adminBtnBlock}>
                <Button disabled={!editBlockCardInfo.videoId || editBlockCardInfo.comment || fetchStatus === 'loading'} onClick={(e) => toPublish(e)}>Publish</Button>
