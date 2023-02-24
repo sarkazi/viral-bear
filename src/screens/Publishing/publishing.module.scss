@@ -1,15 +1,18 @@
 .container {
   padding: 10px;
+  position: relative;
+  .modeCheckbox {
+    margin-left: auto;
+  }
   .upItems {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
     color: rgb(255, 255, 255);
     padding: 10px;
     background-color: rgb(240, 240, 240);
     border-radius: 10px;
     width: 100%;
-    & .upItem:not(:nth-child(4)) {
+    & .upItem:not(:last-child) {
       margin-bottom: 5px;
     }
     .upItem {
@@ -17,6 +20,7 @@
       display: grid;
       grid-template-columns: 200px 1fr;
       column-gap: 20px;
+      align-items: center;
       background: linear-gradient(45deg, #24338a, #411882);
       border-radius: 10px;
       &:first-child h2 {
@@ -28,8 +32,7 @@
       h2 {
         font-size: 22px;
         font-weight: 400;
-        justify-self: flex-start;
-        align-self: flex-start;
+        text-align: center;
       }
       & .upBox .upBoxItem:hover {
         outline: none;
@@ -38,7 +41,7 @@
       }
       .upBox {
         display: flex;
-        column-gap: 10px;
+        column-gap: 20px;
         overflow-x: scroll;
         padding: 5px 5px 10px;
 
@@ -55,26 +58,49 @@
         .upBoxItem {
           outline: 1px solid rgb(255, 255, 255);
           border-radius: 3px;
-          &.hot {
-            outline: 1px solid rgb(255, 39, 100);
+          position: relative;
+          height: 42px;
+          // &.hot {
+          //   outline: 1px solid rgb(255, 39, 100);
+          // }
+          // &.hot button span {
+          //   color: rgb(255, 39, 100);
+          // }
+          &.active {
+            background-color: #e6d9fc;
+            outline: none;
+            color: rgb(0, 0, 0);
           }
-          &.hot button span {
-            color: rgb(255, 39, 100);
+          &.active span {
+            color: rgb(0, 0, 0);
+          }
+          &.visited {
+            outline: 1px solid rgb(73, 191, 255);
+          }
+          &.visited:hover {
+            outline: none;
           }
           &:hover span {
             color: rgb(41, 41, 41);
           }
-          &.hot:hover span {
-            color: rgb(41, 41, 41);
+          // &.hot:hover span {
+          //   color: rgb(41, 41, 41);
+          // }
+          // &.hot:hover {
+          //   outline: none;
+          // }
+          svg {
+            position: absolute;
+            top: -3px;
+            right: -12px;
+            transform: rotate(10deg);
+            color: orangered;
           }
-          &.hot:hover {
-            outline: none;
-          }
+
           button {
             padding: 10px 20px;
             width: 100%;
             height: 100%;
-            cursor: pointer;
             span {
               font-size: 16px;
               white-space: nowrap;
@@ -96,155 +122,13 @@
     background-color: rgb(240, 240, 240);
     border-radius: 10px;
     padding: 10px;
-    .itemBlock {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgb(201, 201, 201);
-      background-color: white;
-      padding: 20px;
-      h2 {
-        font-size: 24px;
-        font-weight: 500;
-        margin-bottom: 50px;
-      }
-      .form {
-        .formUpBlock {
-          display: flex;
-          flex-direction: column;
-          row-gap: 15px;
-          margin-bottom: 15px;
-        }
-        .formCenterBlock {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          column-gap: 15px;
-          margin-bottom: 15px;
-          .mediaBlock {
-            border: 1px solid rgb(200, 200, 200);
-            border-radius: 4px;
-            height: 200px;
-            position: relative;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            button {
-              position: absolute;
-              top: 10px;
-              right: 10px;
-              background-color: white;
-            }
+  }
+}
 
-            iframe {
-              max-width: 100% !important;
-              max-height: 100% !important;
-            }
-          }
-          label {
-            border: 1px solid rgb(200, 200, 200);
-            border-radius: 4px;
-            min-height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 0;
-            p {
-              margin-bottom: 0;
-              text-align: center;
-              color: gray;
-            }
-            input {
-              display: none;
-            }
-          }
-        }
-        .formDownBlock {
-          display: flex;
-          flex-direction: column;
-          row-gap: 15px;
-        }
-      }
-    }
-    .rightBlock {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      //background-color: #f8f9fa;
-      border-radius: 10px;
-      border: 1px solid rgb(201, 201, 201);
-      padding: 20px;
-      h2 {
-        font-size: 24px;
-        font-weight: 500;
-        align-self: flex-start;
-        margin-bottom: 50px;
-      }
-    }
-  }
-}
-.inputBox {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  column-gap: 10px;
-  button {
-    background-color: #3f51b5;
-    padding-left: 40px;
-    padding-right: 40px;
-    color: white;
-    font-size: 13px;
-    font-weight: 400;
-    text-transform: uppercase;
-    &:hover {
-      background-color: #4d5fc8;
-    }
-  }
-  .textAreaBtn {
-    max-height: 60px;
-    height: 100%;
-    align-self: flex-start;
-    background: linear-gradient(-45deg, #339e9c, #25aa5c) !important;
-    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-      0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
-    &:hover {
-      background: linear-gradient(-45deg, #25aa5c, #3facab) !important;
-    }
-  }
-}
-.mainBtn {
-  background: linear-gradient(-45deg, #3f51b5, #5422a4) !important;
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
-  color: white !important;
-  padding: 15px !important;
-  font-size: 13px !important;
-  font-weight: 400 !important;
-  &:hover {
-    background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
-  }
-}
-.rightBtnBlock {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 15px;
-  button {
-    font-size: 13px;
-    font-weight: 400;
-  }
-}
-.grayBtn {
-  background-color: rgb(223, 223, 223) !important;
-  color: rgb(45, 45, 45) !important;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
-  &:hover {
-    background-color: rgb(221, 221, 221) !important;
-  }
-}
 .downFindBlock {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   .downFindBox {
     display: grid;
     max-width: 500px;
@@ -257,5 +141,55 @@
         border: 1px solid white;
       }
     }
+  }
+  .adminBtnBlock {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    button {
+      height: 100%;
+      box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+        0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+      color: white !important;
+      padding: 15px 40px !important;
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      &:last-child {
+        background: linear-gradient(-45deg, #339e9c, #25aa5c) !important;
+        &:hover {
+          background: linear-gradient(-45deg, #25aa5c, #339e9c) !important;
+        }
+      }
+      &:first-child {
+        background: linear-gradient(-45deg, #3f51b5, #5422a4) !important;
+        &:hover {
+          background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
+        }
+      }
+      &:hover {
+        background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
+      }
+      &:disabled {
+        background: linear-gradient(
+          rgba(0, 0, 0, 0.12),
+          rgba(0, 0, 0, 0.12)
+        ) !important;
+        color: rgba(0, 0, 0, 0.26) !important;
+        box-shadow: unset !important;
+      }
+    }
+  }
+}
+
+.grayBtn {
+  color: rgb(45, 45, 45) !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+  &:disabled {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
   }
 }

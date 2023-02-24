@@ -1,0 +1,164 @@
+.itemBlock {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgb(201, 201, 201);
+  background-color: white;
+  padding: 20px;
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 50px;
+  }
+  .form {
+    .formUpBlock {
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+      margin-bottom: 15px;
+    }
+    .formCenterBlock {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 15px;
+      margin-bottom: 15px;
+      .mediaBlock {
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 4px;
+        height: 200px;
+        position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background-color: white;
+        }
+
+        iframe {
+          max-width: 100% !important;
+          max-height: 100% !important;
+        }
+      }
+      label:last-child {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+      label {
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 4px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+        p {
+          margin-bottom: 0;
+          text-align: center;
+          color: gray;
+        }
+        span {
+          margin-top: 8px;
+          font-weight: 500;
+          font-size: 18px;
+          color: black;
+          max-width: 150px;
+          width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          text-align: center;
+        }
+        input {
+          display: none;
+        }
+      }
+    }
+    .formDownBlock {
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+    }
+  }
+}
+
+.inputBox {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  column-gap: 10px;
+  button {
+    background-color: #3f51b5;
+    padding-left: 40px;
+    padding-right: 40px;
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #4d5fc8;
+    }
+  }
+  .textAreaBtn {
+    max-height: 60px;
+    height: 100%;
+    max-width: 120px;
+    width: 100%;
+    font-size: 11px;
+    line-height: 120%;
+    align-self: flex-start;
+    background: linear-gradient(-45deg, #339e9c, #25aa5c) !important;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+      0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+    &:hover {
+      background: linear-gradient(-45deg, #25aa5c, #3facab) !important;
+    }
+    &:disabled {
+      background: linear-gradient(
+        rgba(0, 0, 0, 0.12),
+        rgba(0, 0, 0, 0.12)
+      ) !important;
+      color: rgba(0, 0, 0, 0.26) !important;
+      box-shadow: none !important;
+    }
+  }
+}
+.mainBtn {
+  background: linear-gradient(-45deg, #3f51b5, #5422a4) !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+  color: white !important;
+  padding: 15px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  &:hover {
+    background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
+  }
+  &:disabled {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
+    box-shadow: none !important;
+  }
+}
+
+.grayBtn {
+  background-color: rgb(223, 223, 223) !important;
+  color: rgb(45, 45, 45) !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+  &:hover {
+    background-color: rgb(221, 221, 221) !important;
+  }
+}
+
+.followLinkBtn {
+  max-width: 120px;
+  font-size: 11px !important;
+  line-height: 120% !important;
+}

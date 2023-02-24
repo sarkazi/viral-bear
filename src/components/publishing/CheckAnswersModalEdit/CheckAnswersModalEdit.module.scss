@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modal {
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    .list {
+      & .item:not(:last-child) {
+        border-bottom: 1px solid rgb(208, 208, 208);
+      }
+      .item {
+        padding: 20px;
+      }
+    }
+  }
+}

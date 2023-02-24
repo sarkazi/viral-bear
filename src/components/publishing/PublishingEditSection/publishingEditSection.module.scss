@@ -1,0 +1,244 @@
+.itemBlock {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgb(201, 201, 201);
+  background-color: white;
+  padding: 20px;
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 50px;
+  }
+  .commentBlock {
+    background: linear-gradient(45deg, #da4b6a, #cb0025);
+    box-shadow: inset 0 0 40px rgb(186, 0, 0);
+    margin-top: -20px;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    h3 {
+      color: white;
+      font-size: 23px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    p {
+      color: white;
+      font-size: 19px;
+      text-align: center;
+    }
+  }
+  .form {
+    .formUpBlock {
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+      margin-bottom: 15px;
+      .idBlock {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+      }
+    }
+    .formCenterBlock {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 15px;
+      margin-bottom: 15px;
+      .mediaBlock {
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 4px;
+        height: 200px;
+        position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        video {
+          height: 100%;
+        }
+        .editBtn {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background-color: white;
+          padding: 0;
+          label {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            border-radius: 50%;
+            border: none;
+            outline: none;
+          }
+          input {
+            display: none;
+          }
+        }
+        .resetBtn {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background-color: white;
+          padding: 10px;
+        }
+        iframe {
+          max-width: 100% !important;
+          max-height: 100% !important;
+        }
+      }
+      label {
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 4px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+        p {
+          margin-bottom: 0;
+          text-align: center;
+          color: gray;
+        }
+        input {
+          display: none;
+        }
+      }
+    }
+    .formDownBlock {
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+    }
+    .rightBtnBlock {
+      display: grid;
+      column-gap: 15px;
+      button {
+        font-size: 13px;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.grayBtn {
+  color: rgb(45, 45, 45) !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+  &:disabled {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
+    box-shadow: unset !important;
+  }
+}
+
+.fixedBtn {
+  background: linear-gradient(45deg, #da4b6a, #cb0025) !important;
+  color: white !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+  &:disabled {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
+    box-shadow: unset !important;
+  }
+  &:hover {
+    background: linear-gradient(45deg, #cb0025, #da4b6a) !important;
+  }
+}
+
+.mainBtn {
+  background: linear-gradient(-45deg, #3f51b5, #5422a4) !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+  color: white !important;
+  padding: 15px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  &:hover {
+    background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
+  }
+  &:disabled {
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.12)
+    ) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
+    box-shadow: unset !important;
+  }
+}
+
+.inputBox {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  column-gap: 10px;
+  button {
+    background-color: #3f51b5;
+    padding-left: 40px;
+    padding-right: 40px;
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #4d5fc8;
+    }
+  }
+  .textAreaBtn {
+    max-height: 60px;
+    height: 100%;
+    max-width: 120px;
+    width: 100%;
+    font-size: 11px;
+    line-height: 120%;
+    align-self: flex-start;
+    background: linear-gradient(-45deg, #339e9c, #25aa5c) !important;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+      0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+    &:hover {
+      background: linear-gradient(-45deg, #25aa5c, #3facab) !important;
+    }
+    &:disabled {
+      background: linear-gradient(
+        -45deg,
+        rgb(206, 206, 206),
+        rgb(206, 206, 206)
+      ) !important;
+      color: rgba(0, 0, 0, 0.26) !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+.labelVideoInEditBlock {
+  font-weight: 500;
+  font-size: 18px;
+  color: black;
+  max-width: 150px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+}
+
+.followLinkBtn {
+  font-size: 11px !important;
+  line-height: 120% !important;
+}
