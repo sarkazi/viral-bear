@@ -294,12 +294,17 @@ const Publishing = () => {
    }
 
    const renderResearcher = (card) => {
-      let arr = []
-      card.members.map(el => {
-         arr.push(el.fullName)
-      }).join('')
-      console.log(arr)
-      return arr
+      if (card.members) {
+         let arr = []
+         card.members.map(el => {
+            arr.push(el.fullName)
+         }).join('')
+         console.log(arr)
+         return arr
+      } else {
+         return []
+      }
+
    }
 
    const findVideoById = async () => {
@@ -328,8 +333,12 @@ const Publishing = () => {
    const handleClickApprovedCard = async (card) => {
 
       const cardWithVBCode = card.customFieldItems.find(el => el.idCustomField === '63e659f754cea8f9978e3b63')
+
+      console.log(cardWithVBCode)
+
       if (cardWithVBCode) {
          const VBCode = cardWithVBCode?.value?.number
+
          try {
             const { data } = await Axios.get(`/uploadInfo/findOne/${VBCode}`, null, {
                headers: {
@@ -369,9 +378,6 @@ const Publishing = () => {
                   whoAppears: '',
                })
             } else {
-               toast.success(`data from the ${VBCode} form is obtained from the database!`, {
-                  duration: 6000
-               });
                setActiveAddVideo({
                   trelloCardUrl: card.url,
                   trelloCardId: card.id,
@@ -400,6 +406,9 @@ const Publishing = () => {
                   country: '',
                   date: '',
                })
+               toast.success(`data from the ${VBCode} form is obtained from the database!`, {
+                  duration: 6000
+               });
             }
          } catch (err) {
             console.log(err)
@@ -409,10 +418,6 @@ const Publishing = () => {
          }
       } else {
          toast.custom(
-            <div style={toastOptions}>
-               <ReportProblem style={{ width: '20px' }} />
-               <span>The "vb code" field is not in the trello card</span>
-            </div>,
             <ToastCustom text="The 'vb code' field is not in the trello card" />,
             { duration: 6000 });
          setActiveAddVideo({
