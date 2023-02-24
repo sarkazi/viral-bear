@@ -131,7 +131,7 @@ const PublishingAddSection =
 
          } catch (err) {
             console.log(err)
-            toast.error(err.response.data.message ? err.response.data.message : 'Whoops...something went wrong', {
+            toast.error(err?.response?.data?.message ? err?.response?.data?.message : 'Whoops...something went wrong', {
                duration: 5000, id: notification
             });
          } finally {
