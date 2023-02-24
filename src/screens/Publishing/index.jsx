@@ -586,8 +586,8 @@ const Publishing = () => {
             {isAdminMode && <Grid className={styles.upItem} item xs={12}>
                <h2>Waiting for publishing:</h2>
                <Box className={styles.upBox} >
-                  {cardsForPublishing.sort((a, b) => {
-                     if (a.trelloData.priority === true) {
+                  {cardsForPublishing?.sort((a, b) => {
+                     if (a?.trelloData?.priority === true) {
                         return -1
                      } return 1
                   }).map(card => (
@@ -603,8 +603,8 @@ const Publishing = () => {
             <Grid className={styles.upItem} item xs={12}>
                <h2>Done:</h2>
                <Box className={styles.upBox} >
-                  {doneCards.sort((a, b) => {
-                     if (a.customFieldItems.find(el => el.idValue === '62c7e0032a86d7161f8cadb2')) {
+                  {doneCards?.sort((a, b) => {
+                     if (a?.customFieldItems?.find(el => el.idValue === '62c7e0032a86d7161f8cadb2')) {
                         return -1
                      } return 1
                   }).map(card => (
@@ -620,8 +620,8 @@ const Publishing = () => {
             </Grid>
             <Grid className={styles.upItem} item xs={12}><h2>Approved:</h2>
                <Box className={styles.upBox}>
-                  {approvedCards.sort((a, b) => {
-                     if (a.customFieldItems.find(el => el.idValue === '62c7e0032a86d7161f8cadb2')) {
+                  {approvedCards?.sort((a, b) => {
+                     if (a?.customFieldItems?.find(el => el.idValue === '62c7e0032a86d7161f8cadb2')) {
                         return -1
                      } return 1
                   }).map(card => (
@@ -637,8 +637,8 @@ const Publishing = () => {
             <Grid className={styles.upItem} item xs={12}>
                <h2>Social media:</h2>
                <Box className={styles.upBox}>
-                  {socialMediaCards.sort((a, b) => {
-                     if (a.trelloData.priority === true) {
+                  {socialMediaCards?.sort((a, b) => {
+                     if (a?.trelloData?.priority === true) {
                         return -1
                      } return 1
                   }).map(card => (
@@ -654,8 +654,8 @@ const Publishing = () => {
             <Grid className={styles.upItem} item xs={12}>
                <h2>Fix this:</h2>
                <Box className={styles.upBox}>
-                  {fixedCards.sort((a, b) => {
-                     if (a.trelloData.priority === true) {
+                  {fixedCards?.sort((a, b) => {
+                     if (a?.trelloData?.priority === true) {
                         return -1
                      } return 1
                   }).map(card => (
