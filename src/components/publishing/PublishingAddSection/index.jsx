@@ -149,10 +149,6 @@ const PublishingAddSection =
             })
             if (data.message === 'Форма не найдена!') {
                toast.custom(
-                  <div style={toastOptions}>
-                     <ReportProblem style={{ width: '20px' }} />
-                     <span></span>
-                  </div>,
                   <ToastCustom text={`The form with the number "VB${activeAddVideo.vbCode}" was not found in the database!`} />,
                   { duration: 5000 });
                resetAddState()

@@ -310,6 +310,8 @@ const Publishing = () => {
    const findVideoById = async () => {
       try {
          const { data } = await Axios.get(`/video2/findOne/${videoId}`)
+
+         console.log(data, 8888)
          if (data.message) {
             toast.custom(
                <ToastCustom text={data.message} />,
@@ -333,8 +335,6 @@ const Publishing = () => {
    const handleClickApprovedCard = async (card) => {
 
       const cardWithVBCode = card.customFieldItems.find(el => el.idCustomField === '63e659f754cea8f9978e3b63')
-
-      console.log(cardWithVBCode)
 
       if (cardWithVBCode) {
          const VBCode = cardWithVBCode?.value?.number
