@@ -6,11 +6,52 @@
   border: 1px solid rgb(201, 201, 201);
   background-color: white;
   padding: 20px;
-  h2 {
-    font-size: 24px;
-    font-weight: 500;
+  .titleBlock {
     margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    column-gap: 20px;
+    .upBoxItem {
+      outline: 1px solid rgb(0, 6, 176);
+      border-radius: 3px;
+      position: relative;
+      padding: 10px 20px;
+      svg {
+        position: absolute;
+        top: -3px;
+        right: -12px;
+        transform: rotate(10deg);
+        color: orangered;
+      }
+      span {
+        font-size: 16px;
+        white-space: nowrap;
+        color: rgb(255, 255, 255);
+        color: rgb(0, 6, 176);
+      }
+    }
+
+    @media (max-width: 600px) {
+      & {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 15px;
+      }
+    }
+    h2 {
+      font-size: 24px;
+      font-weight: 500;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      column-gap: 15px;
+      white-space: nowrap;
+      padding: 0;
+      margin: 0;
+    }
   }
+
   .commentBlock {
     background: linear-gradient(45deg, #da4b6a, #cb0025);
     box-shadow: inset 0 0 40px rgb(186, 0, 0);
@@ -62,13 +103,14 @@
       .mediaBlock {
         border: 1px solid rgb(200, 200, 200);
         border-radius: 4px;
-        height: 200px;
+        height: 200px !important;
         position: relative;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
         display: flex;
         justify-content: center;
+        padding: 10px;
         align-items: center;
         video {
           height: 100%;
@@ -80,6 +122,7 @@
           right: 10px;
           background-color: white;
           padding: 0;
+          z-index: 3;
           label {
             width: 100%;
             height: 100%;
@@ -103,7 +146,7 @@
       label {
         border: 1px solid rgb(200, 200, 200);
         border-radius: 4px;
-        height: 200px;
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -148,54 +191,10 @@
   }
 }
 
-.fixedBtn {
-  background: linear-gradient(45deg, #da4b6a, #cb0025) !important;
-  color: white !important;
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
-  &:disabled {
-    background: linear-gradient(
-      rgba(0, 0, 0, 0.12),
-      rgba(0, 0, 0, 0.12)
-    ) !important;
-    color: rgba(0, 0, 0, 0.26) !important;
-    box-shadow: unset !important;
-  }
-  &:hover {
-    background: linear-gradient(45deg, #cb0025, #da4b6a) !important;
-  }
-}
-
-.mainBtn {
-  background: linear-gradient(-45deg, #3f51b5, #5422a4) !important;
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
-  color: white !important;
-  padding: 15px !important;
-  font-size: 13px !important;
-  font-weight: 400 !important;
-  &:hover {
-    background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
-  }
-  &:disabled {
-    background: linear-gradient(
-      rgba(0, 0, 0, 0.12),
-      rgba(0, 0, 0, 0.12)
-    ) !important;
-    color: rgba(0, 0, 0, 0.26) !important;
-    box-shadow: unset !important;
-  }
-}
-
 .inputBox {
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr auto;
   column-gap: 10px;
-  @media (max-width: 650px) {
-    & {
-      grid-template-columns: 1fr auto;
-    }
-  }
   button {
     background-color: #3f51b5;
     padding-left: 40px;
@@ -204,39 +203,13 @@
     font-size: 13px;
     font-weight: 400;
     text-transform: uppercase;
-    @media (max-width: 650px) {
-      & {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-    }
     &:hover {
       background-color: #4d5fc8;
     }
   }
   .textAreaBtn {
-    max-height: 60px;
-    height: 100%;
     max-width: 120px;
-    width: 100%;
-    font-size: 11px;
-    line-height: 120%;
     align-self: flex-start;
-    background: linear-gradient(-45deg, #339e9c, #25aa5c) !important;
-    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-      0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
-    &:hover {
-      background: linear-gradient(-45deg, #25aa5c, #3facab) !important;
-    }
-    &:disabled {
-      background: linear-gradient(
-        -45deg,
-        rgb(206, 206, 206),
-        rgb(206, 206, 206)
-      ) !important;
-      color: rgba(0, 0, 0, 0.26) !important;
-      box-shadow: none !important;
-    }
   }
 }
 
@@ -256,19 +229,75 @@
   line-height: 120% !important;
 }
 
+.vbInput {
+  background-color: rgb(246, 253, 255);
+}
+
 ._btn {
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  height: 100% !important;
+  line-height: 120% !important;
+  &:disabled {
+    background: linear-gradient(
+      rgb(220, 227, 230),
+      rgb(220, 227, 230)
+    ) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
+    box-shadow: unset !important;
+  }
+}
+
+._greenBtn {
+  background: linear-gradient(-45deg, #339e9c, #25aa5c) !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+  &:hover {
+    background: linear-gradient(-45deg, #25aa5c, #3facab) !important;
+  }
+}
+
+._purpleBtn {
+  background: linear-gradient(-45deg, #3f51b5, #5422a4) !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+  color: white !important;
+  padding: 20px !important;
+  &:hover {
+    background: linear-gradient(-45deg, #6430b8, #3f51b5) !important;
+  }
+}
+
+.fixedBtn {
+  background: linear-gradient(45deg, #da4b6a, #cb0025) !important;
+  color: white !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) !important;
+  &:hover {
+    background: linear-gradient(45deg, #cb0025, #da4b6a) !important;
+  }
+}
+
+._iconBtn {
+  width: 120px !important;
+  @media (max-width: 600px) {
+    & {
+      width: 40px !important;
+      padding: 0 !important;
+    }
+  }
   svg {
     display: none;
-  }
-  @media (max-width: 650px) {
-    & {
-      svg {
+    @media (max-width: 600px) {
+      & {
         display: unset;
       }
-      span {
+    }
+  }
+  span {
+    @media (max-width: 600px) {
+      & {
         display: none;
-        font-size: 11px;
-        line-height: 120%;
       }
     }
   }

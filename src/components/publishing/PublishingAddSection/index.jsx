@@ -10,16 +10,15 @@ import {
    Chip,
    FormControlLabel,
    Checkbox,
-   InputAdornment,
    Autocomplete
 } from '@mui/material'
-import { ReportProblem, Search, Link, QuestionAnswer } from '@mui/icons-material';
+import { WhatshotTwoTone, Search, Link, QuestionAnswer } from '@mui/icons-material';
+import { InputAdornment } from '@mui/material';
 
 
 import clsx from 'clsx'
 
 import toast from 'react-hot-toast';
-import { toastOptions } from '../../../toast/constants/toastOptions';
 import ToastCustom from '../../../toast/components/ToastCustom';
 
 import { Axios } from '../../../api/axios.instance'
@@ -132,7 +131,7 @@ const PublishingAddSection =
 
          } catch (err) {
             console.log(err)
-            toast.error(err?.response?.data?.message ? err?.response?.data?.message : 'Whoops...something went wrong', {
+            toast.error(err.response.data.message ? err.response.data.message : 'Whoops...something went wrong', {
                duration: 5000, id: notification
             });
          } finally {
@@ -244,7 +243,14 @@ const PublishingAddSection =
 
       return (
          <Grid className={styles.itemBlock}>
-            <h2>Add video</h2>
+            <Box className={styles.titleBlock}>
+               <h2>Add video</h2>
+               {activeAddVideo.trelloCardName &&
+                  <Box className={styles.upBoxItem}>
+                     <span>{activeAddVideo?.trelloCardName?.substring(0, 20)}{activeAddVideo?.trelloCardName?.length >= 20 && '...'}</span>
+                     {activeAddVideo.priority && <WhatshotTwoTone />}
+                  </Box>}
+            </Box>
             <form onSubmit={(e) => onAddForm(e)} ref={addForm} className={styles.form}>
                <Grid className={styles.formUpBlock}>
                   <Box className={styles.inputBox}>
@@ -255,18 +261,31 @@ const PublishingAddSection =
                               <span>VB</span>
                            </InputAdornment>
                         ),
-                     }} value={activeAddVideo.vbCode || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, vbCode: e.target.value })} variant="outlined" label="VB code" />
+                     }} value={activeAddVideo.vbCode || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, vbCode: e.target.value })} variant="outlined" label="VB code" className={styles.vbInput} />
 
-                     <Button className={clsx([styles._btn])} disabled={!activeAddVideo.vbCode} onClick={() => onFindForm()} variant="contained"><span>Find</span><Search /></Button>
+                     <Button className={clsx([styles._btn, styles._iconBtn])} disabled={!activeAddVideo.vbCode} onClick={() => onFindForm()} variant="contained">
+                        <span>Find</span>
+                        <Search />
+                     </Button>
                   </Box>
                   <Box className={styles.inputBox}>
-                     <TextField value={activeAddVideo.agreementLink || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, agreementLink: e.target.value })} variant="outlined" label="Link to the agreement" disabled />
-                     <Button className={clsx([styles.followLinkBtn, styles._btn])} disabled={!validator.isURL(activeAddVideo.agreementLink)} onClick={() => window.open(activeAddVideo.agreementLink)} variant="contained"><span>Follow the link</span><Link /></Button>
+                     <TextField value={activeAddVideo.agreementLink || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, agreementLink: e.target.value })} variant="outlined" label="Link to the agreement" disabled className={styles.vbInput} />
+                     <Button className={clsx([styles._btn, styles._iconBtn])} disabled={!validator.isURL(activeAddVideo?.agreementLink) ? true : false} onClick={() => window.open(activeAddVideo?.agreementLink)} variant="contained">
+                        <span>Follow the link</span>
+                        <Link />
+                     </Button>
                   </Box>
-                  <TextField value={activeAddVideo.authorEmail || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, authorEmail: e.target.value })} variant="outlined" label="Author's email" disabled />
-                  <TextField type='number' value={activeAddVideo.advancePayment || ''} onChange={(e) => advancePaymentHandleSubmit(e)} variant="outlined" label='Advance payment ($)' disabled />
-                  <TextField type='number' value={activeAddVideo.percentage || ''} onChange={(e) => percentageHandleSubmit(e)} variant="outlined" label='Percentage (%)' disabled />
+                  <TextField value={activeAddVideo.authorEmail || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, authorEmail: e.target.value })} variant="outlined" label="Author's email" className={styles.vbInput} />
+                  <TextField type='number' value={activeAddVideo.advancePayment || ''} onChange={(e) => advancePaymentHandleSubmit(e)} variant="outlined" label='Advance payment ($)' disabled className={styles.vbInput} />
+                  <TextField type='number' value={activeAddVideo.percentage || ''} onChange={(e) => percentageHandleSubmit(e)} variant="outlined" label='Percentage (%)' disabled className={styles.vbInput} />
 
+                  <Box className={styles.inputBox}>
+                     <TextField value={activeAddVideo.trelloCardUrl || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardUrl: e.target.value })} variant="outlined" label='Trello card (link)' required disabled />
+                     <Button onClick={() => window.open(activeAddVideo.trelloCardUrl)} className={clsx([styles._btn, styles._iconBtn])} disabled={!validator.isURL(activeAddVideo.trelloCardUrl) ? true : false} variant="contained">
+                        <span>Follow the link</span>
+                        <Link />
+                     </Button>
+                  </Box>
                   <Autocomplete
                      multiple
                      autoSelect
@@ -282,23 +301,19 @@ const PublishingAddSection =
                      renderInput={params => (
                         <TextField
                            {...params}
-                           label="Researchers"
+                           label="Researchers *"
                            variant="outlined"
 
                         />
                      )}
                   />
-
-                  <Box className={styles.inputBox}>
-                     <TextField value={activeAddVideo.trelloCardUrl || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardUrl: e.target.value })} variant="outlined" label='Trello card (link)' required disabled />
-                     <Button onClick={() => window.open(activeAddVideo.trelloCardUrl)} className={clsx([styles.followLinkBtn, styles._btn])} disabled={!validator.isURL(activeAddVideo.trelloCardUrl) ? true : false} variant="contained"><span>Follow the link</span><Link /></Button>
-                  </Box>
-                  <TextField value={activeAddVideo.trelloCardId} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardId: e.target.value })} variant="outlined" label='Trello card (id)' required disabled />
-                  <TextField value={activeAddVideo.trelloCardName} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, trelloCardName: e.target.value })} variant="outlined" label='Trello card (name)' required disabled />
                   <FormControlLabel control={<Checkbox checked={activeAddVideo.priority} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, priority: e.target.checked })} disabled />} label="Priority" required disabled />
                   <Box className={styles.inputBox}>
                      <TextField value={activeAddVideo.originalLink || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, originalLink: e.target.value })} variant="outlined" label='Original video link' required />
-                     <Button onClick={() => window.open(activeAddVideo.originalLink)} className={clsx([styles.followLinkBtn, styles._btn])} disabled={!validator.isURL(activeAddVideo.originalLink) ? true : false} variant="contained"><span>Follow the link</span><Link /></Button>
+                     <Button onClick={() => window.open(activeAddVideo.originalLink)} className={clsx([styles._btn, styles._iconBtn])} disabled={!validator.isURL(activeAddVideo.originalLink) ? true : false} variant="contained">
+                        <span> Follow the link</span>
+                        <Link />
+                     </Button>
                   </Box>
                </Grid>
                <Grid className={styles.formCenterBlock}>
@@ -323,7 +338,10 @@ const PublishingAddSection =
                         !activeAddVideo.whatHappen &&
                         !activeAddVideo.whenFilmed &&
                         !activeAddVideo.whoAppears
-                     } onClick={() => setModalOpen(true)} className={clsx([styles.textAreaBtn, styles._btn])} variant='filled'><span>Check author's answers</span><QuestionAnswer /></Button>
+                     } onClick={() => setModalOpen(true)} className={clsx(styles.textAreaBtn, styles._greenBtn, styles._btn, styles._iconBtn)} variant='filled'>
+                        <span>Check author's answers</span>
+                        <QuestionAnswer />
+                     </Button>
                   </Box>
                   <TextField value={activeAddVideo.creditTo || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, creditTo: e.target.value })} variant="outlined" label="Credit to" />
 
@@ -344,7 +362,7 @@ const PublishingAddSection =
                      renderInput={params => (
                         <TextField
                            {...params}
-                           label="Tags"
+                           label="Tags *"
                            variant="outlined"
                         />
                      )}
@@ -362,7 +380,7 @@ const PublishingAddSection =
                   <TextField InputLabelProps={{
                      shrink: true,
                   }} type='date' value={activeAddVideo.date || ''} onChange={(e) => setActiveAddVideo({ ...activeAddVideo, date: e.target.value })} variant="outlined" label="Date" required />
-                  <Button disabled={isPublishingBtnDisabled()} type='submit' className={styles.mainBtn}>Add the video for publishing</Button>
+                  <Button disabled={isPublishingBtnDisabled()} type='submit' className={clsx([styles.mainBtn, styles._btn, styles._purpleBtn])}>Add the video for publishing</Button>
                </Grid>
             </form>
 

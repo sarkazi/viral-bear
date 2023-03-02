@@ -12,10 +12,13 @@ import {
    Chip,
    FormControlLabel,
    Checkbox,
-   Autocomplete,
+   Dialog,
+   DialogActions,
+   DialogTitle,
+   Autocomplete
 } from '@mui/material'
-import { Edit, CloseRounded, Search, Link, QuestionAnswer } from '@mui/icons-material';
-//import { PurpleCheckbox } from '../../../mui/components/PurpleCheckbox';
+import { Edit, CloseRounded, WhatshotTwoTone, Search, Link, QuestionAnswer } from '@mui/icons-material';
+import { PurpleCheckbox } from '../../../mui/components/PurpleCheckbox';
 
 import { Axios } from '../../../api/axios.instance';
 import { trelloInstance } from '../../../api/trello.instance'
@@ -23,9 +26,9 @@ import { trelloInstance } from '../../../api/trello.instance'
 import toast from 'react-hot-toast';
 import ToastCustom from '../../../toast/components/ToastCustom';
 
-import validator from 'validator'
-
 import clsx from 'clsx'
+
+import validator from 'validator'
 
 
 
@@ -39,8 +42,22 @@ const PublishingEditSection = ({
    changeEditBlockState,
    members,
    fetchStatus,
-   setFetchStatus
+   setFetchStatus,
+   setCounter,
+   counter
 }) => {
+
+
+   const [open, setOpen] = React.useState(false);
+
+   const handleClickOpen = () => {
+      setOpen(true);
+   };
+
+   const handleClose = () => {
+      setOpen(false);
+   };
+
 
 
 
@@ -112,6 +129,7 @@ const PublishingEditSection = ({
             toast.success(`information about video with id ${data?.videoData?.videoId} updated!`, {
                duration: 6000, id: notification
             });
+            setCounter(counter + 1)
          }
       } catch (err) {
          console.log(err)
@@ -134,6 +152,7 @@ const PublishingEditSection = ({
          toast.success(`The "not accepted" flag is set in the trello card`, {
             duration: 6000
          });
+         setCounter(counter + 1)
 
       } catch (err) {
          console.log(err)
@@ -143,8 +162,8 @@ const PublishingEditSection = ({
       }
    }
 
-   const onDeleteFromDB = async (e) => {
-      e.preventDefault()
+
+   const onDeleteFromDB = async () => {
       const notification = toast.loading("Wait. The video is being deleted...");
       try {
 
@@ -162,6 +181,8 @@ const PublishingEditSection = ({
             });
             findLastVideo()
             changeTrelloCard(data)
+            setOpen(false)
+            setCounter(counter + 1)
          }
       } catch (err) {
          console.log(err)
@@ -207,9 +228,33 @@ const PublishingEditSection = ({
    }
 
 
+
+
    return (
-      <Grid className={styles.itemBlock} onClick={() => console.log(editBlockCardInfo)}>
-         <h2>Last / found video</h2>
+      <Grid className={styles.itemBlock} >
+         <Dialog
+            open={open}
+            onClose={handleClose}
+         >
+            <DialogTitle>
+               Are you sure you want to delete this video?
+            </DialogTitle>
+            <DialogActions>
+               <Button onClick={handleClose}>No</Button>
+               <Button onClick={() => onDeleteFromDB()} autoFocus>
+                  Yes
+               </Button>
+            </DialogActions>
+         </Dialog>
+         <Box className={styles.titleBlock}>
+            <h2>Last / found video</h2>
+            {editBlockCardInfo.trelloCardName &&
+               <Box className={styles.upBoxItem}>
+                  <span>{editBlockCardInfo?.trelloCardName?.substring(0, 20)}{editBlockCardInfo?.trelloCardName?.length >= 20 && '...'}</span>
+                  {editBlockCardInfo.priority && <WhatshotTwoTone />}
+               </Box>}
+
+         </Box>
          {editBlockCardInfo.comment &&
             <Box className={styles.commentBlock}>
                <h3>Edits:</h3>
@@ -228,6 +273,8 @@ const PublishingEditSection = ({
                      onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, vbCode: e.target.value })}
                      variant="outlined"
                      label="VB code"
+                     className={styles.vbInput}
+
                   />
                   <TextField
                      type='number'
@@ -245,9 +292,10 @@ const PublishingEditSection = ({
                      variant="outlined"
                      label="Link to the agreement"
                      disabled
+                     className={styles.vbInput}
                   />
                   <Button
-                     className={clsx([styles.followLinkBtn, styles._btn])}
+                     className={clsx([styles._btn, styles._iconBtn])}
                      disabled={!validator.isURL(editBlockCardInfo.agreementLink)}
                      onClick={() => window.open(editBlockCardInfo.agreementLink)}
                      variant="contained"
@@ -261,7 +309,8 @@ const PublishingEditSection = ({
                   onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, authorEmail: e.target.value })}
                   variant="outlined"
                   label="Author's email"
-                  disabled
+                  className={styles.vbInput}
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                <TextField
                   type='number'
@@ -270,6 +319,7 @@ const PublishingEditSection = ({
                   variant="outlined"
                   label='Advance payment ($)'
                   disabled
+                  className={styles.vbInput}
                />
                <TextField
                   type='number'
@@ -278,11 +328,32 @@ const PublishingEditSection = ({
                   variant="outlined"
                   label='Percentage (%)'
                   disabled
+                  className={styles.vbInput}
                />
+
+               <Box className={styles.inputBox}>
+                  <TextField
+                     value={editBlockCardInfo.trelloCardUrl}
+                     onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, trelloCardUrl: e.target.value })}
+                     variant="outlined"
+                     label='Trello card (link)'
+                     disabled
+                  />
+                  <Button
+                     className={clsx([styles._btn, styles._iconBtn])}
+                     disabled={!validator.isURL(editBlockCardInfo.trelloCardUrl)}
+                     onClick={() => window.open(editBlockCardInfo.trelloCardUrl)}
+                     variant="contained"
+                  >
+                     <span>Follow the link</span>
+                     <Link />
+                  </Button>
+               </Box>
                <Autocomplete
                   multiple
                   autoSelect
-                  value={editBlockCardInfo?.researchers.map(el => el)}
+                  disabled={editBlockCardInfo.isApproved === true}
+                  value={editBlockCardInfo?.researchers}
                   options={members} advancePaymentHandleSubmit
                   onChange={researcherHandleSubmit}
                   renderTags={(value, getTagProps) =>
@@ -295,39 +366,10 @@ const PublishingEditSection = ({
                         {...params}
                         label="Researchers"
                         variant="outlined"
+                     //disabled={editBlockCardInfo.isApproved === true}
                      />
                   )}
                />
-               <Box className={styles.inputBox}>
-                  <TextField
-                     value={editBlockCardInfo.trelloCardUrl}
-                     onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, trelloCardUrl: e.target.value })}
-                     variant="outlined"
-                     label='Trello card (link)'
-                     disabled
-                  />
-                  <Button
-                     className={clsx([styles.followLinkBtn, styles._btn])}
-                     disabled={!validator.isURL(editBlockCardInfo.trelloCardUrl)}
-                     onClick={() => window.open(editBlockCardInfo.trelloCardUrl)}
-                     variant="contained"
-                  >
-                     <span>Follow the link</span>
-                     <Link />
-                  </Button>
-               </Box>
-               <TextField
-                  value={editBlockCardInfo.trelloCardId}
-                  onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, trelloCardId: e.target.value })}
-                  variant="outlined"
-                  label='Trello card (id)'
-                  disabled />
-               <TextField
-                  value={editBlockCardInfo.trelloCardName}
-                  onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, trelloCardName: e.target.value })}
-                  variant="outlined"
-                  label='Trello card (name)'
-                  disabled />
                <FormControlLabel
                   control={
                      <Checkbox
@@ -343,9 +385,10 @@ const PublishingEditSection = ({
                      onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, originalLink: e.target.value })}
                      variant="outlined"
                      label='Original video link'
+                     disabled={editBlockCardInfo.isApproved === true}
                   />
                   <Button
-                     className={clsx([styles.followLinkBtn, styles._btn])}
+                     className={clsx([styles._btn, styles._iconBtn])}
                      disabled={!validator.isURL(editBlockCardInfo.originalLink)}
                      onClick={() => window.open(editBlockCardInfo.originalLink)}
                      variant="contained"
@@ -371,6 +414,7 @@ const PublishingEditSection = ({
                            onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, video: e.target.files[0] })}
                            id='editVideoInput'
                            type="file"
+                           disabled={editBlockCardInfo.isApproved === true}
                         />
                         <Edit />
                      </label>
@@ -378,16 +422,16 @@ const PublishingEditSection = ({
                   {editBlockCardInfo.video ?
                      <span className={styles.labelVideoInEditBlock}>{editBlockCardInfo.video.name}</span>
                      :
-                     <video src={editBlockCardInfo.cloudVideoLink} controls></video>}
+                     <video src={`${editBlockCardInfo.cloudVideoLink}?${Date.now()}`} controls></video>}
                </Box>
                <Box
                   className={styles.mediaBlock}
                   style={{
-                     backgroundImage: editBlockCardInfo.screen
+                     backgroundImage: editBlockCardInfo?.screen
                         ?
-                        `url(${URL.createObjectURL(editBlockCardInfo.screen)})`
+                        `url(${window.URL.createObjectURL(editBlockCardInfo.screen)})`
                         :
-                        `url(${editBlockCardInfo.cloudScreenLink})`
+                        `url(${editBlockCardInfo.cloudScreenLink}?${Date.now()})`
                   }}>
                   {editBlockCardInfo.screen &&
                      <IconButton className={styles.resetBtn} onClick={() => clearInput('screen')}>
@@ -401,6 +445,7 @@ const PublishingEditSection = ({
                            onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, screen: e.target.files[0] })}
                            id='editScreenInput'
                            type="file"
+                           disabled={editBlockCardInfo.isApproved === true}
                         />
                         <Edit />
                      </label>
@@ -415,6 +460,7 @@ const PublishingEditSection = ({
                   onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, title: e.target.value })}
                   variant="outlined"
                   label="Title"
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                <Box className={styles.inputBox}>
                   <TextField
@@ -423,6 +469,7 @@ const PublishingEditSection = ({
                      variant="outlined"
                      label='Description'
                      multiline
+                     disabled={editBlockCardInfo.isApproved === true}
                   />
                   <Button
                      disabled={
@@ -432,7 +479,7 @@ const PublishingEditSection = ({
                         !editBlockCardInfo.whenFilmed &&
                         !editBlockCardInfo.whoAppears}
                      onClick={() => setEditAnswerModal(true)}
-                     className={clsx([styles.textAreaBtn, styles._btn])}
+                     className={clsx([styles.textAreaBtn, styles._btn, styles._greenBtn, styles._iconBtn])}
                      variant='filled'
                   >
                      <span>Check author's answers</span>
@@ -444,11 +491,13 @@ const PublishingEditSection = ({
                   onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, creditTo: e.target.value })}
                   variant="outlined"
                   label="Credit to"
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                <Autocomplete
                   multiple
                   freeSolo
                   autoSelect
+                  disabled={editBlockCardInfo.isApproved === true}
                   options={[]}
                   value={editBlockCardInfo?.tags.map(el => el)}
                   onChange={tagsHandleSubmit}
@@ -473,18 +522,21 @@ const PublishingEditSection = ({
                      required />}
                   onChange={(e, value) => setEditBlockCardInfo({ ...editBlockCardInfo, category: value })}
                   value={editBlockCardInfo.category || ''}
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                <TextField
                   value={editBlockCardInfo.city}
                   onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, city: e.target.value })}
                   variant="outlined"
                   label="City"
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                <TextField
                   value={editBlockCardInfo.country}
                   onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, country: e.target.value })}
                   variant="outlined"
                   label="Country"
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                <TextField
                   InputLabelProps={{
@@ -495,36 +547,40 @@ const PublishingEditSection = ({
                   onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, date: e.target.value })}
                   variant="outlined"
                   label="Date"
+                  disabled={editBlockCardInfo.isApproved === true}
                />
                {isAdminMode && <FormControlLabel
                   control={<Checkbox
                      checked={editBlockCardInfo.brandSafe}
                      onChange={(e) => setEditBlockCardInfo({ ...editBlockCardInfo, brandSafe: e.target.checked })}
-                  />}
+                     disabled={editBlockCardInfo.isApproved === true}
+                  />
+                  }
                   label="Brand safe video" />}
                <Box
                   className={styles.rightBtnBlock}
                   style={{ gridTemplateColumns: !isAdminMode && editBlockCardInfo.comment ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)' }}>
+                  {!isAdminMode && editBlockCardInfo.comment && <Button
+                     disabled={isDisabledBtn() || fetchStatus === 'loading'}
+                     onClick={(e) => onUpdateData(e, 'fixedVideo')}
+                     className={clsx([styles.fixedBtn, styles._btn])}>
+                     Fixed
+                  </Button>}
                   <Button
-                     disabled={isDisabledBtn() || (!isAdminMode && editBlockCardInfo.comment) || fetchStatus === 'loading'}
+                     disabled={isDisabledBtn() || (!isAdminMode && editBlockCardInfo.comment) || fetchStatus === 'loading' || editBlockCardInfo.isApproved === true}
                      onClick={(e) => onUpdateData(e, 'update')}
                      type='submit'
-                     className={styles.mainBtn}
+                     className={clsx([styles.mainBtn, styles._btn, styles._purpleBtn])}
                   >
                      Save
                   </Button>
                   <Button
                      disabled={!editBlockCardInfo.videoId || fetchStatus === 'loading'}
-                     onClick={(e) => onDeleteFromDB(e)}
-                     className={styles.grayBtn}>
+                     onClick={() => handleClickOpen()}
+                     className={clsx([styles.grayBtn, styles._btn])}>
                      Delete
                   </Button>
-                  {!isAdminMode && editBlockCardInfo.comment && <Button
-                     disabled={isDisabledBtn() || fetchStatus === 'loading'}
-                     onClick={(e) => onUpdateData(e, 'fixedVideo')}
-                     className={styles.fixedBtn}>
-                     Fixed
-                  </Button>}
+
                </Box>
             </Grid>
          </form>
